@@ -87,6 +87,28 @@ wss.broadcast = function broadcast(data) {
 };
 ```
 
+### Server add validation for connecting client.
+
+```js
+var auth = function (req) {
+  // You can check cookie here.
+  // If the connection is invalid,
+  // the server will return 403 response.
+  ....
+};
+
+var WebSocketServer = require('ws').Server
+  , wss = new WebSocketServer({ port: 8080, auth: auth });
+
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
+  });
+
+  ws.send('something');
+});
+```
+
 ### Error handling best practices
 
 ```js
@@ -113,7 +135,7 @@ catch (e) { /* handle error */ }
 ```js
 var WebSocket = require('ws');
 var ws = new WebSocket('ws://echo.websocket.org/', {
-  protocolVersion: 8, 
+  protocolVersion: 8,
   origin: 'http://websocket.org'
 });
 
@@ -136,7 +158,7 @@ ws.on('message', function message(data, flags) {
 ```
 
 ### Browserify users
-When including ws via a browserify bundle, ws returns global.WebSocket which has slightly different API. 
+When including ws via a browserify bundle, ws returns global.WebSocket which has slightly different API.
 You should use the standard WebSockets API instead.
 
 https://developer.mozilla.org/en-US/docs/WebSockets/Writing_WebSocket_client_applications#Availability_of_WebSockets
