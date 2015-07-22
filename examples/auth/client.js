@@ -3,7 +3,7 @@ var ws = new WebSocket('ws://localhost:8080/', {
   protocolVersion: 8,
   origin: 'http://websocket.org',
   headers: {
-    cookie: 'auth=2; '
+    cookie: 'auth=1; '
   }
 });
 

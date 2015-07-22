@@ -37,5 +37,23 @@ wss.on('connection', function connection(ws) {
     console.log('received: %s', message);
   });
 
+  var heartbeat = setInterval(function () {
+    ws.ping();
+
+    var closeTimeout = setTimeout(function () {
+      console.log('close');
+      ws.close(1000, '');
+    }, 10000);
+
+    ws.on('pong', function (data) {
+      console.log('pong');
+      clearTimeout(closeTimeout);
+    });
+  }, 20000);
+
+  ws.on('close', function () {
+    clearInterval(heartbeat);
+  });
+
   ws.send('something');
 });
