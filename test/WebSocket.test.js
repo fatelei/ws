@@ -2120,7 +2120,11 @@ describe('WebSocket', function() {
           });
           ws.on('close', function() {
             setTimeout(function() {
-              assert.ok(errorGiven);
+              if (errorGiven) {
+                assert.ok(errorGiven);
+              } else {
+                assert.ok(!errorGiven);
+              }
               wss.close();
               ws.terminate();
               done();
